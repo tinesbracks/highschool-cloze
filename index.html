@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>高考完形填空就这么做！</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="auth-locked">
+  <section class="login-gate" id="loginGate" aria-label="登录入口">
+    <form class="login-panel" id="loginForm">
+      <span class="login-mark">C</span>
+      <h1>高考完形训练登录</h1>
+      <p>输入 6 位登录码后进入训练页面。</p>
+      <label class="login-field">
+        <span>登录码</span>
+        <input id="loginCodeInput" type="text" maxlength="6" autocomplete="one-time-code" inputmode="text" placeholder="请找工作人员领取">
+      </label>
+      <button class="primary-btn login-submit" type="submit">进入训练</button>
+      <p class="login-error" id="loginError" aria-live="polite"></p>
+    </form>
+  </section>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">C</span>
+      <div>
+        <h1>高考完形填空就这么做！</h1>
+        <p>先定主题，再找提示，最后选答案</p>
+      </div>
+    </div>
+    <nav class="anchor-nav" aria-label="训练模块导航">
+      <a href="#home">主页</a>
+      <a href="#mindset">方法</a>
+      <a href="#macro">基调</a>
+      <a href="#drill">逐空</a>
+      <a href="#reading">全文</a>
+      <a href="#review">复盘</a>
+    </nav>
+  </header>
+
+  <aside class="doctrine" id="mindset">
+    <section class="mantra-panel" aria-label="八句真言">
+      <div class="panel-label">八句真言</div>
+      <div class="mantra-window">
+        <ul id="mantraList">
+          <li>首句完整定主题</li>
+          <li>相同词性定答案</li>
+          <li>名词看同源</li>
+          <li>动词看先后</li>
+          <li>形副看褒贬</li>
+          <li>无信靠主题</li>
+          <li>代词先还原</li>
+          <li>就近定逻辑</li>
+        </ul>
+      </div>
+    </section>
+    <section class="laws" aria-label="三大铁律">
+      <span>无提示不做题</span>
+      <span>寻找最短逻辑线</span>
+    </section>
+  </aside>
+
+  <main>
+    <section class="module home-module" id="home">
+      <div class="section-head">
+        <span class="step-badge">Home</span>
+        <div>
+          <h2>文章训练库</h2>
+          <p>选择一篇文章进入训练。已完成文章显示灰色，未完成文章保持彩色。</p>
+        </div>
+      </div>
+      <div class="article-library" id="articleLibrary"></div>
+    </section>
+
+    <div id="trainingWorkspace" class="training-workspace hidden">
+    <section class="module macro-module" id="macro">
+      <div class="section-head">
+        <span class="step-badge">Step 1</span>
+        <div>
+          <h2>宏观语篇定调区</h2>
+          <p>左边看首句与收尾句，右边完成文章基调选择并查看首句四要素分析。</p>
+        </div>
+      </div>
+
+      <div class="macro-grid">
+        <article class="passage-card first-sentence-card">
+          <div class="passage-toolbar">
+            <strong>PREPARATION5｜Gitanjali Rao 科学发明</strong>
+            <span id="unlockState">待定调</span>
+          </div>
+          <p class="lead-sentence">
+            <mark>In many ways, Gitanjali Rao is an ordinary 11-year-old, lively and chatty, yet her scientific spirit makes a huge difference.</mark>
+          </p>
+          <p class="closing-sentence">
+            <mark>She shows a lot of motivation to solve practical issues through science.</mark>
+          </p>
+          <div class="first-sentence-notes">
+            <span>人物：Gitanjali Rao，11岁的年轻发明者</span>
+            <span>事件：她凭借检测水中铅含量的发明获奖</span>
+            <span>环境：城市面临饮用水含铅危机，科学竞赛场景</span>
+            <span>主旨：年轻人也能用科学解决现实问题</span>
+          </div>
+        </article>
+
+        <article class="macro-task">
+          <h3>文章走向选择</h3>
+          <div class="choice-block">
+            <p>文章走向</p>
+            <div class="choice-row" data-choice-group="trend">
+              <button class="step-action" type="button" data-choice="积极">积极</button>
+              <button class="step-action" type="button" data-choice="消极">消极</button>
+              <button class="step-action" type="button" data-choice="中性">中性</button>
+              <button class="step-action" type="button" data-choice="转折">转折</button>
+            </div>
+          </div>
+          <button class="primary-btn" id="unlockBtn" type="button">完成定调，进入逐空分析</button>
+          <p class="form-hint" id="macroHint">请选择文章走向。</p>
+          <div class="standard-tone" id="standardTone" hidden>
+            <strong>标准定调</strong>
+            <p>正确文章基调：积极、励志、问题解决型。首句用 ordinary 与 scientific spirit 的转折定调，结尾落到 through science solve practical issues，说明全文核心是用科学精神解决现实问题。</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="module drill-module locked" id="drill" aria-live="polite">
+      <div class="section-head">
+        <span class="step-badge">Step 2</span>
+        <div>
+          <h2>逐空硬核拆解训练区</h2>
+          <p>左边点空，右边先看全部选项，再选词性，系统自动给线索并同步高亮原文。</p>
+        </div>
+      </div>
+
+      <div class="lock-layer" id="lockLayer">
+        <strong>请先完成宏观定调</strong>
+        <span>定调后会自动滚动到这里。</span>
+      </div>
+
+      <div class="analysis-grid">
+        <article class="article-panel">
+          <div class="passage-toolbar">
+            <strong>完整文章</strong>
+            <span id="activeBlankState">点击任意空</span>
+          </div>
+          <div class="full-article" id="clozeArticle"></div>
+        </article>
+
+        <aside class="analysis-panel">
+          <div class="analysis-title">
+            <span id="analysisQuestion">未选空</span>
+            <strong>右侧分析</strong>
+          </div>
+          <div id="analysisContent" class="analysis-content">
+            <p>点击左侧任意空格开始。</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="module reading-module" id="reading">
+      <div class="section-head">
+        <span class="step-badge">Step 3</span>
+        <div>
+          <h2>全文词句精读区</h2>
+          <p>左边完整全文与全部选项；点击单词或选项看翻译，双击句子看句译。</p>
+        </div>
+      </div>
+
+      <div class="analysis-grid">
+        <article class="article-panel">
+          <div class="passage-toolbar">
+            <strong>完整全文与选项</strong>
+            <span>点击词 / 点击选项 / 双击句</span>
+          </div>
+          <div class="full-article reading-text" id="readingArticle"></div>
+          <div class="all-options" id="allOptions"></div>
+        </article>
+
+        <aside class="analysis-panel">
+          <div class="analysis-title">
+            <span id="lookupTitle">词句翻译</span>
+            <strong>精读面板</strong>
+          </div>
+          <div id="lookupContent" class="analysis-content">
+            <p>点击任意收录词汇，或双击任意句子。</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="module review-module" id="review">
+      <div class="section-head">
+        <span class="step-badge">Step 4</span>
+        <div>
+          <h2>错题分析与复盘勾选</h2>
+          <p>系统汇总错题，学生只通过选择完成原因归因与复查。</p>
+        </div>
+      </div>
+
+      <div class="review-grid">
+        <article class="complete-passage">
+          <div class="passage-toolbar">
+            <strong>错题分析</strong>
+            <div class="toolbar-actions">
+              <button class="ghost-btn" id="refreshMistakesBtn" type="button">刷新</button>
+              <button class="ghost-btn" id="printPdfBtn" type="button">打印 PDF</button>
+            </div>
+          </div>
+          <div id="mistakeList" class="mistake-list">还没有作答记录。</div>
+        </article>
+        <article class="reflection">
+          <h3>复盘勾选</h3>
+          <label><input type="checkbox"> 我找到了明确原文提示</label>
+          <label><input type="checkbox"> 我检查了词性是否匹配</label>
+          <label><input type="checkbox"> 我检查了动作先后与因果</label>
+          <label><input type="checkbox"> 我检查了情感色彩是否一致</label>
+          <label><input type="checkbox"> 最后升华题已回到全文主旨</label>
+          <div class="choice-block">
+            <p>本次主要错误原因</p>
+            <div class="choice-row" data-choice-group="mistakeReason">
+              <button class="step-action" type="button" data-choice="单词不认识">单词不认识</button>
+              <button class="step-action" type="button" data-choice="没找提示词">没找提示词</button>
+              <button class="step-action" type="button" data-choice="自己脑补">自己脑补</button>
+              <button class="step-action" type="button" data-choice="词性误判">词性误判</button>
+            </div>
+          </div>
+          <div class="theme-return">
+            <strong>无信靠主旨检测</strong>
+            <p id="macroEcho">完成模块二后，这里会同步显示你的宏观定调。</p>
+          </div>
+        </article>
+      </div>
+    </section>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
