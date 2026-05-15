@@ -513,7 +513,7 @@ const lookupTitle = document.querySelector("#lookupTitle");
 const lookupContent = document.querySelector("#lookupContent");
 const mistakeList = document.querySelector("#mistakeList");
 const refreshMistakesBtn = document.querySelector("#refreshMistakesBtn");
-const printPdfBtn = document.querySelector("#printPdfBtn");
+const printPdfBtns = document.querySelectorAll("[data-print-pdf]");
 const loginForm = document.querySelector("#loginForm");
 const loginCodeInput = document.querySelector("#loginCodeInput");
 const loginError = document.querySelector("#loginError");
@@ -809,7 +809,7 @@ readingArticle.addEventListener("dblclick", (event) => {
 });
 
 refreshMistakesBtn.addEventListener("click", refreshMistakes);
-printPdfBtn.addEventListener("click", printReviewPdf);
+printPdfBtns.forEach((button) => button.addEventListener("click", printReviewPdf));
 
 mistakeList.addEventListener("click", (event) => {
   const button = event.target.closest(".step-action");
