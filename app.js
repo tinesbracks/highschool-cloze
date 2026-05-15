@@ -782,18 +782,42 @@ function refreshMistakes() {
 function printReviewPdf() {
   const data = articleData[currentArticleId];
   if (!data) return;
-  const rows = questions.map((question) => {
-    const chosen = answers.get(question.id) || "未作答";
-    const correct = chosen === question.answer;
-    const options = question.options.map((option, index) => `${optionLabels[index]}. ${option}`).join("    ");
-    return `<section class="print-question ${correct ? "" : "print-wrong"}">
-      <h3>${question.id}. ${correct ? "正确" : "需复盘"}</h3>
-      <p><strong>选项：</strong>${options}</p>
-      <p><strong>你的答案：</strong>${chosen}　<strong>标准答案：</strong>${question.answer}</p>
-      ${correct ? "" : `<p><strong>错题复盘：</strong>${question.logic}</p>`}
+  const escapePrintHtml = (value) => String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+  const printAnalysisText = (text) => String(text)
+    .split(/\n+/)
+    .map((line) => `<p>${escapePrintHtml(line)}</p>`)
+    .join("");
+  const articleWithBlanks = sentenceData.map((sentence) => {
+    const html = sentence.html
+      .replace(/<button class="blank-token" data-qid="(\d+)">\d+<\/button>/g, '<span class="print-blank">($1) ____</span>')
+      .replace(/<span data-clue="[^"]+">([^<]*)<\/span>/g, "$1");
+    return `<p>${html}</p>`;
+  }).join("");
+  const optionRows = questions.map((question) => {
+    const options = question.options
+      .map((option, index) => `<span><strong>${optionLabels[index]}.</strong> ${escapePrintHtml(option)}</span>`)
+      .join("");
+    return `<section class="print-question">
+      <h3>${question.id} 题</h3>
+      <div class="print-options">${options}</div>
     </section>`;
   }).join("");
-  const articleText = sentenceData.map((sentence) => sentence.en).join(" ");
+  const analysisRows = questions.map((question) => {
+    const chosen = answers.get(question.id) || "未作答";
+    const correct = chosen === question.answer;
+    return `<section class="print-question ${correct ? "" : "print-wrong"}">
+      <h3>${question.id} 题解析</h3>
+      <p><strong>考点：</strong>${escapePrintHtml(question.clueType)}</p>
+      <p><strong>线索：</strong>${escapePrintHtml(question.clue)}</p>
+      <p><strong>你的答案：</strong>${escapePrintHtml(chosen)}　<strong>标准答案：</strong>${escapePrintHtml(question.answer)}</p>
+      <div><strong>思路解析：</strong>${printAnalysisText(question.logic)}</div>
+    </section>`;
+  }).join("");
   const win = window.open("", "_blank");
   win.document.write(`<!DOCTYPE html>
     <html lang="zh-CN">
@@ -808,18 +832,25 @@ function printReviewPdf() {
         p { margin: 4px 0; }
         .meta { color: #4b5563; margin-bottom: 18px; }
         .article { background: #f9fafb; border: 1px solid #e5e7eb; padding: 12px; border-radius: 6px; }
+        .article p { margin: 0 0 10px; }
+        .print-blank { display: inline-block; min-width: 74px; font-weight: 700; color: #111827; }
         .print-question { break-inside: avoid; border: 1px solid #e5e7eb; border-radius: 6px; padding: 10px; margin: 10px 0; }
+        .print-options { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px 14px; }
+        .print-options span { font-size: 14px; }
         .print-wrong { border-color: #fca5a5; background: #fff7f7; }
+        .answer-section { break-before: page; }
         @media print { body { padding: 0; } button { display: none; } }
       </style>
     </head>
     <body>
       <h1>${data.title}</h1>
       <p class="meta">${data.source}</p>
-      <h2>完整文章</h2>
-      <div class="article">${articleText}</div>
-      <h2>题目选项与错题复盘</h2>
-      ${rows}
+      <h2>完整题目</h2>
+      <div class="article">${articleWithBlanks}</div>
+      <h2>选项</h2>
+      ${optionRows}
+      <h2 class="answer-section">逐题解析</h2>
+      ${analysisRows}
       <script>window.onload = () => window.print();</script>
     </body>
     </html>`);
